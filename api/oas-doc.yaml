@@ -1,0 +1,194 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Users testing Swagger
+  description: >-
+    Example API using openAPI3.0
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    name: Test API Team
+    email: srinivas625.4u@gmail.com
+    url: 'http://srinivas625.com'
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  - url: 'http://srinivas625.com/v1'
+paths:
+  '/user':
+    get:
+      description: Return all users
+      x-router-controller: userController
+      operationId: getAllUsers
+      responses:
+        '200':
+          description: all users array response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsersResponse'
+        default:
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+    post:
+      description: creates new user
+      x-router-controller: userController
+      operationId: addUser
+      requestBody:
+        description: User to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserObject'
+      responses:
+        '200':
+          description: created user id response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdResponse'
+        default:
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+  '/user/{id}':
+    get:
+      description: >-
+        Return a user base on a single id
+      x-router-controller: userController
+      operationId: getUser
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to fetch
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: requested user response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        default:
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+    put:
+      description: >-
+        Update user information, username
+      x-router-controller: userController
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to fetch
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: User to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdateObject'
+      responses:
+        default:
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+    delete:
+      description: >-
+        Delete user
+      x-router-controller: userController
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          description: ID of user to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        default:
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultResponse'
+components:
+  schemas:
+    Error:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    DefaultResponse:
+      required:
+        - status
+      properties:
+        status:
+          $ref: '#/components/schemas/Error'
+    UserObject:
+      required:
+        - username
+        - email
+      properties:
+        _id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+    UserUpdateObject:
+      required:
+        - username
+      properties:
+        username:
+          type: string
+    UserResponse:
+      required:
+        - status
+        - user
+      properties:
+        status:
+          $ref: '#/components/schemas/Error'
+        user:
+          $ref: '#/components/schemas/UserObject'
+    UsersResponse:
+      required:
+        - status
+        - users
+      properties:
+        status:
+          $ref: '#/components/schemas/Error'
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserObject'
+    IdResponse:
+      required:
+        - status
+        - id
+      properties:
+        status:
+          $ref: '#/components/schemas/Error'
+        id:
+          type: string
