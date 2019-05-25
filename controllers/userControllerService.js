@@ -1,5 +1,3 @@
-'use strict'
-
 import models from '../models/index'
 
 module.exports.getAllUsers = async (req, res, next) => {

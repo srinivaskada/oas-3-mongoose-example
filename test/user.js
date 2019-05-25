@@ -1,21 +1,21 @@
-//During the test the env variable is set to test
+/* eslint-env node, mocha */
+// During the test the env variable is set to test
 import 'babel-polyfill'
+import models from '../models'
 
 process.env.NODE_ENV = 'test'
 
-import mongoose from 'mongoose'
-import models, { connectDb } from '../models'
-//Require the dev-dependencies
+// Require the dev-dependencies
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const server = require('../index')
-const should = chai.should()
 
+chai.should()
 chai.use(chaiHttp)
-//Our parent block
+// Our parent block
 describe('Users', () => {
   beforeEach(async () => {
-    //Before each test we empty the database
+    // Before each test we empty the database
     await models.User.deleteMany()
   })
   /**
@@ -40,7 +40,7 @@ describe('Users', () => {
    */
   describe('/GET all Users', () => {
     beforeEach(async () => {
-      //Before each test we empty the database
+      // Before each test we empty the database
       await models.User.deleteMany()
     })
     it('it should GET empty users', async () => {
@@ -94,7 +94,7 @@ describe('Users', () => {
         username: 'srinivas625'
       }).save()
       try {
-        const res = await chai
+        await chai
           .request(server)
           .post('/v1/user/')
           .send({
@@ -133,9 +133,7 @@ describe('Users', () => {
     it('It should fail to get a user', async () => {
       await newUser.delete()
       try {
-        const res = await chai
-          .request(server)
-          .get('/v1/user/' + newUser._id.toString())
+        await chai.request(server).get('/v1/user/' + newUser._id.toString())
       } catch ({ response: res }) {
         res.should.have.status(404)
         res.body.status.should.be.a('object')
@@ -147,7 +145,7 @@ describe('Users', () => {
     it('It should fail to get a user with internal error', async () => {
       let randomId = 'SRINIVAS625'
       try {
-        const res = await chai.request(server).get(`/v1/user/${randomId}`)
+        await chai.request(server).get(`/v1/user/${randomId}`)
       } catch ({ response: res }) {
         res.should.have.status(500)
         res.body.status.should.be.a('object')
@@ -160,7 +158,7 @@ describe('Users', () => {
   describe('/Update User', () => {
     let newUser
     beforeEach(async () => {
-      //Before each test we empty the database
+      // Before each test we empty the database
       await models.User.deleteMany()
       newUser = await new models.User({
         username: 'srinivas',
@@ -175,6 +173,7 @@ describe('Users', () => {
       res.should.have.status(200)
       res.body.status.should.be.a('object')
       res.body.status.code.should.be.equals(0)
+
       res = await chai.request(server).get('/v1/user/' + newUser._id.toString())
       res.should.have.status(200)
       res.body.status.should.be.a('object')
@@ -186,7 +185,7 @@ describe('Users', () => {
     it('it should should fail to update user', async () => {
       await newUser.remove({})
       try {
-        const res = await chai
+        await chai
           .request(server)
           .put(`/v1/user/${newUser._id.toString()}`)
           .send({ username: 'updated-srinivas' })
@@ -200,7 +199,7 @@ describe('Users', () => {
     it('It should fail to get a user with internal error', async () => {
       let randomId = 'SRINIVAS625'
       try {
-        const res = await chai
+        await chai
           .request(server)
           .put(`/v1/user/${randomId}`)
           .send({ username: 'updated-srinivas' })
@@ -232,7 +231,7 @@ describe('Users', () => {
     it('it should should fail to delete the user', async () => {
       await newUser.remove({})
       try {
-        const res = await chai
+        await chai
           .request(server)
           .delete(`/v1/user/${newUser._id.toString()}`)
           .send({ username: 'updated-srinivas' })
@@ -246,7 +245,7 @@ describe('Users', () => {
     it('It should fail to get a user with internal error', async () => {
       let randomId = 'SRINIVAS625'
       try {
-        const res = await chai.request(server).delete(`/v1/user/${randomId}`)
+        await chai.request(server).delete(`/v1/user/${randomId}`)
       } catch ({ response: res }) {
         res.should.have.status(500)
         res.body.status.should.be.a('object')

@@ -7,6 +7,7 @@
     "start": "PORT=8090 babel-node ./",
     "test": "nyc mocha --require @babel/register --timeout 10000 --exit",
     "lint": "standard --verbose | snazzy",
+    "eslint": "eslint",
     "pretty": "prettier-standard '*.{js,md,json,yaml,yml,css,html}' && prettier-standard '**/*.{js,md,json,yaml,yml,css,html}'"
   },
   "keywords": [
@@ -32,10 +33,17 @@
     "chai": "^3.5.0",
     "chai-http": "^4.3.0",
     "coffeescript": "^2.4.1",
-    "mocha": "^6.1.4",
-    "nyc": "^14.1.1",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-mocha": "^5.3.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
     "husky": "*",
     "lint-staged": "*",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "prettier-standard": "*",
     "snazzy": "*",
     "standard": "*"

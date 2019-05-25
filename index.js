@@ -1,4 +1,3 @@
-'use strict'
 import fs from 'fs'
 import http from 'http'
 import path from 'path'
@@ -20,7 +19,7 @@ const serverPort = process.env.PORT
 const spec = fs.readFileSync(path.join(__dirname, '/api/oas-doc.yaml'), 'utf8')
 const oasDoc = jsYaml.safeLoad(spec)
 
-var options_object = {
+var optionsObject = {
   controllers: path.join(__dirname, './controllers'),
   loglevel: 'error',
   strict: true,
@@ -28,7 +27,7 @@ var options_object = {
   validator: true
 }
 
-oasTools.configure(options_object)
+oasTools.configure(optionsObject)
 
 oasTools.initialize(oasDoc, app, () => {
   http.createServer(app).listen(serverPort, function () {
@@ -36,7 +35,7 @@ oasTools.initialize(oasDoc, app, () => {
     console.log(
       '________________________________________________________________'
     )
-    if (options_object.docs !== false) {
+    if (optionsObject.docs !== false) {
       console.log(
         'API docs (Swagger UI) available on http://localhost:%s/docs',
         serverPort

@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
-mongoose.set('useCreateIndex', true)
-mongoose.set('useNewUrlParser', true)
 import User from './User'
 import Message from './Message'
+
+mongoose.set('useCreateIndex', true)
+mongoose.set('useNewUrlParser', true)
 
 const connectDb = () => {
   return mongoose.connect(
