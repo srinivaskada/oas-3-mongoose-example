@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+import mongoose, { Schema } from 'mongoose'
 
-const messageSchema = new mongoose.Schema({
+const messageSchema = new Schema({
   text: {
     type: String,
     required: true
