@@ -6,7 +6,7 @@
   "scripts": {
     "prestart123": "npm install",
     "start": "PORT=8090 babel-node ./",
-    "test": "nyc mocha --compilers js:@babel/register --timeout 10000"
+    "test": "nyc mocha --require @babel/register --timeout 10000 --exit"
   },
   "keywords": [
     "OAI"
@@ -28,7 +28,8 @@
     "@babel/preset-env": "^7.4.4",
     "chai": "^3.5.0",
     "chai-http": "^2.0.1",
-    "mocha": "^2.4.5",
+    "coffeescript": "^2.4.1",
+    "mocha": "^6.1.4",
     "nyc": "^14.1.1"
   }
 }
