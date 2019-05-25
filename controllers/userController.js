@@ -7,7 +7,9 @@ const executer = async (func, req, res, next) => {
 	try{
 		await func(req, res, next)
 	}catch(error){
-		res.status(500).send(ErrorResponses.InternalErrorResponse)
+		const errorResponse = new Error('Internal error')
+		errorResponse.statusCode = 500
+		next(errorResponse)
 	}
 }
 module.exports.getAllUsers = async (req, res, next) => {

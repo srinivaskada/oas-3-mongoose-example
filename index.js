@@ -9,19 +9,19 @@ import express from 'express'
 import bodyParser from 'body-parser'
 
 
-var app = express();
+const app = express();
 
 app.use(bodyParser.json({
   strict: false
 }));
-var serverPort = process.env.PORT;
+const serverPort = process.env.PORT;
 
-var spec = fs.readFileSync(path.join(__dirname, '/api/oas-doc.yaml'), 'utf8');
-var oasDoc = jsYaml.safeLoad(spec);
+const spec = fs.readFileSync(path.join(__dirname, '/api/oas-doc.yaml'), 'utf8');
+const oasDoc = jsYaml.safeLoad(spec);
 
 var options_object = {
   controllers: path.join(__dirname, './controllers'),
-  loglevel: 'info',
+  loglevel: 'error',
   strict: true,
   router: true,
   validator: true
@@ -29,18 +29,18 @@ var options_object = {
 
 oasTools.configure(options_object);
 
-oasTools.initialize(oasDoc, app, function() {
+oasTools.initialize(oasDoc, app, () => {
   http.createServer(app).listen(serverPort, function() {
-    console.log("App running at http://localhost:" + serverPort);
+    console.log('App running at http://localhost:%s',serverPort);
     console.log("________________________________________________________________");
     if (options_object.docs !== false) {
-      console.log('API docs (Swagger UI) available on http://localhost:' + serverPort + '/docs');
+      console.log('API docs (Swagger UI) available on http://localhost:%s/docs', serverPort);
       console.log("________________________________________________________________");
     }
   });
 });
 
-app.get('/info', function(req, res) {
+app.get('/info', (req, res) => {
   res.send({
     info: "This API was generated using oas-generator!",
     name: oasDoc.info.title

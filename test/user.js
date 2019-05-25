@@ -16,7 +16,7 @@ chai.use(chaiHttp)
 //Our parent block
 describe('Users', () => {
 	beforeEach(async () => { //Before each test we empty the database
-		await models.User.remove()
+		await models.User.deleteMany()
 	})
 	/**
 	 * Sample test
@@ -35,12 +35,12 @@ describe('Users', () => {
 			res.should.have.status(200)
 		})
 	})
-/*
+	/*
   * Test the /GET route
   */
   describe('/GET all Users', () => {
 		beforeEach(async () => { //Before each test we empty the database
-			await models.User.remove()
+			await models.User.deleteMany()
     })
 		it('it should GET empty users', async () => {
 			const res = await chai.request(server).get('/v1/user/')
@@ -72,7 +72,7 @@ describe('Users', () => {
 	 */
 	describe('/POST user', () => {
 		beforeEach(async () => {
-			await models.User.remove({})
+			await models.User.deleteMany({})
 		})
 		it('it should add a new user',  async () => {
 			const res = await chai.request(server).post('/v1/user/').send({
@@ -107,7 +107,7 @@ describe('Users', () => {
 	describe('/Get single User', () => {
 		let newUser
 		beforeEach(async () => {
-			await models.User.remove({})
+			await models.User.deleteMany({})
 			newUser=await new models.User({
 				username: 'srinivas',
 				email: 'srinivaskada@krify.net'
@@ -120,7 +120,7 @@ describe('Users', () => {
 			res.body.status.code.should.be.equals(0)
 		})
 		it('It should fail to get a user', async () => {
-			await newUser.remove()
+			await newUser.delete()
 			try{
 				const res = await chai.request(server).get('/v1/user/'+newUser._id.toString())
 			}catch({response: res}){
@@ -147,7 +147,7 @@ describe('Users', () => {
 	describe('/Update User', () => {
 		let newUser
 		beforeEach(async () => { //Before each test we empty the database
-			await models.User.remove()
+			await models.User.deleteMany()
 			newUser=await new models.User({
 				username: 'srinivas',
 				email: 'srinivaskada@krify.net'
