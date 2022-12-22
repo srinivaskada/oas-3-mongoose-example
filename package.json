@@ -23,7 +23,7 @@
     "express": "^4.16.3",
     "js-yaml": "^3.3.0",
     "mongoose": "^5.5.11",
-    "oas-tools": "^2.1.5"
+    "oas-tools": "^3.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
